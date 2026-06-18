@@ -1,75 +1,163 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var body: some View {
+        NavigationStack {
+            HomeView()
+        }
+    }
+}
+
+struct HomeView: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+            
+            VStack(spacing: 40) {
+                VStack(spacing: 10) {
+                    Text("🎮").font(.system(size: 80))
+                    Text("GAME CENTER").font(.system(size: 45, weight: .bold)).foregroundColor(.white)
+                    Text("Choose Your Challenge").font(.headline).foregroundColor(.white.opacity(0.8))
+                }
+                .padding(.top, 80)
+                Spacer()
+                
+                VStack(spacing: 30) {
+                    NavigationLink(destination: TapFrenzyView()) {
+                        GameModeButton( title: "TAP FRENZY", subtitle: "Tap as fast as you can!",icon: "hand.tap.fill",color: .orange
+                    )}
+                    
+                    NavigationLink(destination: LightItUpView()) {
+                        GameModeButton(title: "LIGHT IT UP", subtitle: "Catch the glowing card!", icon: "lightbulb.fill", color: .yellow
+                    )}
+                }
+                
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationBarBackButtonHidden(false)
+    }
+}
+
+struct GameModeButton: View {
+    let title: String
+    let subtitle: String
+    let icon: String
+    let color: Color
+    
+    var body: some View {
+        HStack(spacing: 20) {
+            Image(systemName: icon)
+                .font(.system(size: 40))
+                .foregroundColor(.white)
+                .frame(width: 60)
+            
+        VStack(alignment: .leading, spacing: 5) {
+            Text(title)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            Text(subtitle)
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.9))
+            }
+        Spacer()
+                        
+        Image(systemName: "chevron.right")
+            .foregroundColor(.white.opacity(0.7))
+        }
+        
+        .padding(25)
+        .background(color)
+        .cornerRadius(20)
+        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+        .padding(.horizontal)
+    }
+}
+
+struct TapFrenzyView: View {
     @State private var score = 0
     @State private var timeRemaining = 10
     @State private var isGameActive = false
-    @State private var highScore = UserDefaults.standard.integer(forKey: "highScore")
+    @State private var highScore = UserDefaults.standard.integer(forKey: "tapFrenzyHighScore")
     @State private var timer: Timer?
-    @State private var buttonOffset = CGSize.zero
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+            .ignoresSafeArea()
             
-            VStack(spacing: 30) {
-                VStack(spacing: 10) {
-                    Text("TAP FRENZY")
-                        .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.white)
-                    
-                    Text("High Score: \(highScore)")
-                        .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
-                }
-                .padding(.top, 50)
+        VStack(spacing: 30) {
+            VStack(spacing: 10) {
+                Text("TAP FRENZY")
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundColor(.white)
+                                    
+                Text("High Score: \(highScore)")
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            .padding(.top, 50)
+            Spacer()
                 
-                Spacer()
-                
-                if isGameActive {
-                    gameView
-                } else {
-                    gameOverView
+            if isGameActive {
+                gameView
+            } else {
+                gameOverView
+            }
+            Spacer()
+        }
+    }
+        
+    .navigationBarTitleDisplayMode(.inline)
+    .navigationBarBackButtonHidden(isGameActive)
+        
+    .toolbar {
+        if !isGameActive {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Home")
+                    }
+                    .foregroundColor(.white)
                 }
-                                
-                Spacer()
             }
         }
     }
+}
     
     var gameView: some View {
         VStack(spacing: 40) {
-            //timer
             Text("\(timeRemaining)")
                 .font(.system(size: 80, weight: .bold))
                 .foregroundColor(.white)
                 
-            //Score
-            VStack(spacing: 5) {
-                Text("SCORE")
-                    .font(.headline)
-                    .foregroundColor(.white.opacity(0.8))
-                Text("\(score)")
-                    .font(.system(size: 60, weight: .bold))
-                    .foregroundColor(.white)
-            }
+        VStack(spacing: 5) {
+            Text("SCORE")
+                .font(.headline)
+                .foregroundColor(.white.opacity(0.8))
+            Text("\(score)")
+                .font(.system(size: 60, weight: .bold))
+                .foregroundColor(.white)
+        }
                 
-            //button
-            Button(action: {
-                handleTap()
-            }) {
-                Text("TAP!")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(width: 100, height: 100)
-                    .background(Color.orange)
-                    .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+        Button(action: {
+            handleTap()
+        }) {
+            Text("TAP!")
+                .font(.system(size: 50, weight: .bold))
+                .foregroundColor(.white)
+                .frame(width: 200, height: 200)
+                .background(Color.orange)
+                .clipShape(Circle())
+                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
             }
-            .offset(buttonOffset)
         }
     }
     
@@ -80,31 +168,29 @@ struct ContentView: View {
                     Text("GAME OVER!")
                         .font(.system(size: 40, weight: .bold))
                         .foregroundColor(.white)
-                    
+                                
                     Text("Final Score")
                         .font(.headline)
                         .foregroundColor(.white.opacity(0.8))
-                    
+                                
                     Text("\(score)")
                         .font(.system(size: 80, weight: .bold))
                         .foregroundColor(.yellow)
-                    
+                                
                     if score == highScore && score > 0 {
-                        Text("NEW HIGH SCORE!")
+                        Text("🎉 NEW HIGH SCORE! 🎉")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.yellow)
                     }
                 }
             } else {
-                // Welcome screen
                 Text("Ready to Play?")
                     .font(.system(size: 35, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
             }
             
-            // Play Again / Start Button
             Button(action: {
                 startGame()
             }) {
@@ -122,13 +208,10 @@ struct ContentView: View {
     }
     
     func startGame() {
-        //reset state
         score = 0
         timeRemaining = 10
         isGameActive = true
-        buttonOffset = CGSize.zero
-        
-        //start timer
+               
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
@@ -140,27 +223,54 @@ struct ContentView: View {
     
     func handleTap() {
         score += 1
-        moveButton()
     }
-    
-    func moveButton() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-            buttonOffset = CGSize(
-                width: CGFloat.random(in: -100...100),
-                height: CGFloat.random(in: -150...150)
-            )
-        }
-    }
+        
     
     func endGame() {
         timer?.invalidate()
         timer = nil
         isGameActive = false
-        
-        //update high score
+            
         if score > highScore {
             highScore = score
-            UserDefaults.standard.set(highScore, forKey: "highScore")
+            UserDefaults.standard.set(highScore, forKey: "tapFrenzyHighScore")
+        }
+    }
+}
+
+struct LightItUpView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View  {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.orange, Color.yellow]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing)
+            .ignoresSafeArea()
+                       
+        VStack {
+            Text("LIGHT IT UP")
+                .font(.system(size: 40, weight: .bold))
+                .foregroundColor(.white)
+                           
+            Text("Coming Soon...")
+                .font(.title2)
+                .foregroundColor(.white.opacity(0.8))
+                .padding()
+            }
+        }
+        
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Home")
+                    }
+                    .foregroundColor(.white)
+                }
+            }
         }
     }
 }
@@ -170,3 +280,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+    
+    
