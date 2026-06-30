@@ -14,6 +14,14 @@
 		9F622F2E2FDC5C8B00324505 /* Tap_fancyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F622F2D2FDC5C8B00324505 /* Tap_fancyTests.swift */; };
 		9F622F382FDC5C8B00324505 /* Tap_fancyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F622F372FDC5C8B00324505 /* Tap_fancyUITests.swift */; };
 		9F622F3A2FDC5C8B00324505 /* Tap_fancyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F622F392FDC5C8B00324505 /* Tap_fancyUITestsLaunchTests.swift */; };
+		9FFC11F32FF40C52008288B3 /* GameCenterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC11F22FF40C52008288B3 /* GameCenterApp.swift */; };
+		9FFC11F72FF40C9F008288B3 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC11F62FF40C9F008288B3 /* Card.swift */; };
+		9FFC11FB2FF40D0B008288B3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC11FA2FF40D0B008288B3 /* HomeView.swift */; };
+		9FFC11FD2FF40D21008288B3 /* GameModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC11FC2FF40D21008288B3 /* GameModeButton.swift */; };
+		9FFC12002FF40D94008288B3 /* TapFrenzyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC11FF2FF40D94008288B3 /* TapFrenzyView.swift */; };
+		9FFC12032FF40DB8008288B3 /* LightItUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12022FF40DB8008288B3 /* LightItUpView.swift */; };
+		9FFC12052FF40DC8008288B3 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12042FF40DC8008288B3 /* CardView.swift */; };
+		9FFC12082FF40DF5008288B3 /* HighScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +52,14 @@
 		9F622F332FDC5C8B00324505 /* Tap fancyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tap fancyUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F622F372FDC5C8B00324505 /* Tap_fancyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap_fancyUITests.swift; sourceTree = "<group>"; };
 		9F622F392FDC5C8B00324505 /* Tap_fancyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tap_fancyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9FFC11F22FF40C52008288B3 /* GameCenterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterApp.swift; sourceTree = "<group>"; };
+		9FFC11F62FF40C9F008288B3 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		9FFC11FA2FF40D0B008288B3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9FFC11FC2FF40D21008288B3 /* GameModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeButton.swift; sourceTree = "<group>"; };
+		9FFC11FF2FF40D94008288B3 /* TapFrenzyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapFrenzyView.swift; sourceTree = "<group>"; };
+		9FFC12022FF40DB8008288B3 /* LightItUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightItUpView.swift; sourceTree = "<group>"; };
+		9FFC12042FF40DC8008288B3 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +110,11 @@
 		9F622F1B2FDC5C8100324505 /* Tap fancy */ = {
 			isa = PBXGroup;
 			children = (
+				9FFC12062FF40DDA008288B3 /* Services */,
+				9FFC11F82FF40CC7008288B3 /* Views */,
+				9FFC11F52FF40C80008288B3 /* Models */,
+				9FFC11F12FF40C23008288B3 /* App */,
 				9F622F1C2FDC5C8100324505 /* Tap_fancyApp.swift */,
-				9F622F1E2FDC5C8100324505 /* ContentView.swift */,
 				9F622F202FDC5C8A00324505 /* Assets.xcassets */,
 				9F622F222FDC5C8A00324505 /* Preview Content */,
 			);
@@ -125,6 +144,67 @@
 				9F622F392FDC5C8B00324505 /* Tap_fancyUITestsLaunchTests.swift */,
 			);
 			path = "Tap fancyUITests";
+			sourceTree = "<group>";
+		};
+		9FFC11F12FF40C23008288B3 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9F622F1E2FDC5C8100324505 /* ContentView.swift */,
+				9FFC11F22FF40C52008288B3 /* GameCenterApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9FFC11F52FF40C80008288B3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC11F62FF40C9F008288B3 /* Card.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9FFC11F82FF40CC7008288B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12012FF40DA0008288B3 /* LightItUp */,
+				9FFC11FE2FF40D77008288B3 /* TapFrenzy */,
+				9FFC11F92FF40CE6008288B3 /* Home */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9FFC11F92FF40CE6008288B3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC11FA2FF40D0B008288B3 /* HomeView.swift */,
+				9FFC11FC2FF40D21008288B3 /* GameModeButton.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9FFC11FE2FF40D77008288B3 /* TapFrenzy */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC11FF2FF40D94008288B3 /* TapFrenzyView.swift */,
+			);
+			path = TapFrenzy;
+			sourceTree = "<group>";
+		};
+		9FFC12012FF40DA0008288B3 /* LightItUp */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12022FF40DB8008288B3 /* LightItUpView.swift */,
+				9FFC12042FF40DC8008288B3 /* CardView.swift */,
+			);
+			path = LightItUp;
+			sourceTree = "<group>";
+		};
+		9FFC12062FF40DDA008288B3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +338,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F622F1F2FDC5C8100324505 /* ContentView.swift in Sources */,
+				9FFC12052FF40DC8008288B3 /* CardView.swift in Sources */,
+				9FFC11F32FF40C52008288B3 /* GameCenterApp.swift in Sources */,
 				9F622F1D2FDC5C8100324505 /* Tap_fancyApp.swift in Sources */,
+				9FFC12032FF40DB8008288B3 /* LightItUpView.swift in Sources */,
+				9FFC11FB2FF40D0B008288B3 /* HomeView.swift in Sources */,
+				9FFC12082FF40DF5008288B3 /* HighScoreManager.swift in Sources */,
+				9FFC11FD2FF40D21008288B3 /* GameModeButton.swift in Sources */,
+				9FFC12002FF40D94008288B3 /* TapFrenzyView.swift in Sources */,
+				9FFC11F72FF40C9F008288B3 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
