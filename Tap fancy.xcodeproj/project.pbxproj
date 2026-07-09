@@ -22,6 +22,11 @@
 		9FFC12032FF40DB8008288B3 /* LightItUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12022FF40DB8008288B3 /* LightItUpView.swift */; };
 		9FFC12052FF40DC8008288B3 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12042FF40DC8008288B3 /* CardView.swift */; };
 		9FFC12082FF40DF5008288B3 /* HighScoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */; };
+		9FFC120E2FF55C4E008288B3 /* TriviaQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC120D2FF55C4E008288B3 /* TriviaQuestion.swift */; };
+		9FFC12102FF55C6F008288B3 /* TriviaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC120F2FF55C6F008288B3 /* TriviaResponse.swift */; };
+		9FFC12132FF55CCF008288B3 /* TriviaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12122FF55CCF008288B3 /* TriviaService.swift */; };
+		9FFC12162FF55D14008288B3 /* QuizRushViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12152FF55D14008288B3 /* QuizRushViewModel.swift */; };
+		9FFC12192FF55DA2008288B3 /* QuizRushView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FFC12182FF55DA2008288B3 /* QuizRushView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,11 @@
 		9FFC12022FF40DB8008288B3 /* LightItUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightItUpView.swift; sourceTree = "<group>"; };
 		9FFC12042FF40DC8008288B3 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreManager.swift; sourceTree = "<group>"; };
+		9FFC120D2FF55C4E008288B3 /* TriviaQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaQuestion.swift; sourceTree = "<group>"; };
+		9FFC120F2FF55C6F008288B3 /* TriviaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaResponse.swift; sourceTree = "<group>"; };
+		9FFC12122FF55CCF008288B3 /* TriviaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaService.swift; sourceTree = "<group>"; };
+		9FFC12152FF55D14008288B3 /* QuizRushViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRushViewModel.swift; sourceTree = "<group>"; };
+		9FFC12182FF55DA2008288B3 /* QuizRushView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRushView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +176,7 @@
 		9FFC11F82FF40CC7008288B3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9FFC120B2FF55BD8008288B3 /* QuizRush */,
 				9FFC12012FF40DA0008288B3 /* LightItUp */,
 				9FFC11FE2FF40D77008288B3 /* TapFrenzy */,
 				9FFC11F92FF40CE6008288B3 /* Home */,
@@ -205,6 +216,50 @@
 				9FFC12072FF40DF5008288B3 /* HighScoreManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		9FFC120B2FF55BD8008288B3 /* QuizRush */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12172FF55D91008288B3 /* Views */,
+				9FFC12142FF55CFE008288B3 /* ViewModels */,
+				9FFC12112FF55CB6008288B3 /* Services */,
+				9FFC120C2FF55C01008288B3 /* Models */,
+			);
+			path = QuizRush;
+			sourceTree = "<group>";
+		};
+		9FFC120C2FF55C01008288B3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC120D2FF55C4E008288B3 /* TriviaQuestion.swift */,
+				9FFC120F2FF55C6F008288B3 /* TriviaResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9FFC12112FF55CB6008288B3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12122FF55CCF008288B3 /* TriviaService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9FFC12142FF55CFE008288B3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12152FF55D14008288B3 /* QuizRushViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9FFC12172FF55D91008288B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9FFC12182FF55DA2008288B3 /* QuizRushView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,9 +395,14 @@
 				9F622F1F2FDC5C8100324505 /* ContentView.swift in Sources */,
 				9FFC12052FF40DC8008288B3 /* CardView.swift in Sources */,
 				9FFC11F32FF40C52008288B3 /* GameCenterApp.swift in Sources */,
+				9FFC12162FF55D14008288B3 /* QuizRushViewModel.swift in Sources */,
+				9FFC12132FF55CCF008288B3 /* TriviaService.swift in Sources */,
 				9F622F1D2FDC5C8100324505 /* Tap_fancyApp.swift in Sources */,
 				9FFC12032FF40DB8008288B3 /* LightItUpView.swift in Sources */,
+				9FFC12102FF55C6F008288B3 /* TriviaResponse.swift in Sources */,
 				9FFC11FB2FF40D0B008288B3 /* HomeView.swift in Sources */,
+				9FFC120E2FF55C4E008288B3 /* TriviaQuestion.swift in Sources */,
+				9FFC12192FF55DA2008288B3 /* QuizRushView.swift in Sources */,
 				9FFC12082FF40DF5008288B3 /* HighScoreManager.swift in Sources */,
 				9FFC11FD2FF40D21008288B3 /* GameModeButton.swift in Sources */,
 				9FFC12002FF40D94008288B3 /* TapFrenzyView.swift in Sources */,

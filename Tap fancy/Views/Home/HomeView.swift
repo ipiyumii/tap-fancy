@@ -50,6 +50,15 @@ struct HomeView: View {
                             color: .yellow
                         )
                     }
+                    
+                    NavigationLink(destination: QuizRushView()) {
+                        GameModeButton(
+                            title: "QUIZ RUSH",
+                            subtitle: "Answer trivia questions!",
+                            icon: "brain.head.profile",
+                            color: .green
+                        )
+                    }
                 }
 
                 Spacer()
