@@ -5,21 +5,26 @@ import SwiftUI
 struct TapFrenzyView: View {
     @StateObject private var viewModel = TapFrenzyVM()
     @Environment(\.dismiss) var dismiss
-    
+
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var tapScale: CGFloat = 1.0
+    @State private var showRipple = false
+
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
                            startPoint: .topLeading,
                            endPoint: .bottomTrailing)
             .ignoresSafeArea()
-            
+
             VStack(spacing: 25) {
                 // header with high score
                 VStack(spacing: 8) {
                     Text("TAP FRENZY")
                         .font(.system(size: 40, weight: .bold))
                         .foregroundColor(.white)
-                    
+
                     HStack {
                         Image(systemName: "trophy.fill")
                             .foregroundColor(.yellow)
@@ -30,7 +35,7 @@ struct TapFrenzyView: View {
                 }
                 .padding(.top, 50)
                 Spacer()
-                
+
                 if viewModel.isGameActive {
                     gameView
                 } else {
@@ -38,6 +43,14 @@ struct TapFrenzyView: View {
                 }
                 Spacer()
             }
+
+            // toaster
+            ToastBanner(
+                message: toastMessage,
+                icon: "flame.fill",
+                color: .orange,
+                isShowing: $showToast
+            )
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(viewModel.isGameActive)
@@ -54,30 +67,84 @@ struct TapFrenzyView: View {
                 }
             }
         }
+        .onChange(of: viewModel.score) { oldValue, newValue in
+            checkMilestone(newValue)
+        }
     }
-    
+
     var gameView: some View {
         VStack(spacing: 35) {
             // timer badge
             ScoreBadge(label: "TIME", value: viewModel.timeRemaining, fontSize: 80)
-            
+
             // score 
             ScoreBadge(label: "SCORE", value: viewModel.score, fontSize: 60)
-            
-            Button(action: {
-                viewModel.handleTap()
-            }) {
-                Text("TAP!")
-                    .font(.system(size: 50, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(width: 200, height: 200)
-                    .background(Color.orange)
-                    .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+
+            ZStack {
+                // Ripple effect 
+                if showRipple {
+                    Circle()
+                        .stroke(Color.orange.opacity(0.5), lineWidth: 3)
+                        .frame(width: 200, height: 200)
+                        .scaleEffect(showRipple ? 1.5 : 1.0)
+                        .opacity(showRipple ? 0 : 1)
+                }
+
+                Button(action: {
+                    viewModel.handleTap()
+                    animateTap()
+                }) {
+                    Text("TAP!")
+                        .font(.system(size: 50, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 200, height: 200)
+                        .background(
+                            Circle()
+                                .fill(
+                                    RadialGradient(
+                                        gradient: Gradient(colors: [Color.orange, Color.red]),
+                                        center: .center,
+                                        startRadius: 5,
+                                        endRadius: 100
+                                    )
+                                )
+                        )
+                        .clipShape(Circle())
+                        .shadow(color: .orange.opacity(0.5), radius: 15, x: 0, y: 5)
+                }
+                .scaleEffect(tapScale)
             }
+
+            // Speed indicator
+            HStack {
+                Image(systemName: "bolt.fill")
+                    .foregroundColor(.yellow)
+                Text(tapSpeedText)
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 8)
+            .background(Color.white.opacity(0.2))
+            .cornerRadius(20)
         }
     }
-    
+
+    var tapSpeedText: String {
+        let tapsPerSecond = viewModel.timeRemaining > 0 ?
+            Double(viewModel.score) / Double(10 - viewModel.timeRemaining + 1) : 0
+
+        if tapsPerSecond > 5 {
+            return "Lightning Fast!"
+        } else if tapsPerSecond > 3 {
+            return "Great Speed!"
+        } else if tapsPerSecond > 1 {
+            return "Keep Going!"
+        } else {
+            return "Tap Faster!"
+        }
+    }
+
     var gameOverView: some View {
         VStack(spacing: 25) {
             if viewModel.score > 0 {
@@ -91,23 +158,57 @@ struct TapFrenzyView: View {
                     onPlayAgain: { viewModel.startGame() }
                 )
             } else {
-                Text("Ready to Play?")
-                    .font(.system(size: 35, weight: .bold))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                
-                Button(action: {
-                    viewModel.startGame()
-                }) {
-                    Text("START GAME")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                VStack(spacing: 20) {
+                    Image(systemName: "hand.tap.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(.orange)
+
+                    Text("Ready to Tap?")
+                        .font(.system(size: 35, weight: .bold))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 40)
-                        .padding(.vertical, 20)
-                        .background(Color.green)
-                        .cornerRadius(15)
+                        .multilineTextAlignment(.center)
+
+                    Text("Tap as many times as you can in 10 seconds!")
+                        .font(.headline)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
                 }
+
+                BouncingPlayButton(title: "START GAME", color: .green) {
+                    viewModel.startGame()
+                }
+            }
+        }
+    }
+
+    private func animateTap() {
+        tapScale = 0.9
+        withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
+            tapScale = 1.0
+        }
+
+        showRipple = true
+        withAnimation(.easeOut(duration: 0.4)) {
+            showRipple = false
+        }
+    }
+
+    private func checkMilestone(_ score: Int) {
+        if score == 20 {
+            toastMessage = "20 Taps! Keep it up!"
+            withAnimation {
+                showToast = true
+            }
+        } else if score == 50 {
+            toastMessage = "50 Taps! Amazing!"
+            withAnimation {
+                showToast = true
+            }
+        } else if score == 100 {
+            toastMessage = "100 Taps! Incredible!"
+            withAnimation {
+                showToast = true
             }
         }
     }

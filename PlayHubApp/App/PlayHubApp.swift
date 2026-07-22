@@ -1,52 +1,68 @@
-//
-//  PlayHubApp.swift
-//  PlayHubApp
-//
-//  Created by Piyumi Imalka on 2026-07-09.
-//
-
 import Foundation
 import SwiftUI
 
 @main
 struct PlayHubApp: App {
     @StateObject private var locationService = LocationService.shared
+    @State private var selectedTab = 0
+
+        init() {
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.systemBackground
+
+            UITabBar.appearance().standardAppearance = tabBarAppearance
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        }
     
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $selectedTab){
                 NavigationStack {
                     HomeTab()
                 }
                 .tabItem {
-                    Image(systemName: "gamecontroller")
-                    Text("Home")
+                    VStack {
+                        Image(systemName: selectedTab == 0 ? "gamecontroller.fill" : "gamecontroller")
+                        Text("Play")
+                    }
                 }
+                .tag(0)
                 
                 NavigationStack {
                     StatsTab()
                 }
                 .tabItem {
-                    Image(systemName: "chart.bar")
-                    Text("Stats")
+                    VStack {
+                        Image(systemName: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
+                        Text("Stats")
+                    }
                 }
-                
+                .tag(1)
+
                 NavigationStack {
                     MapTab()
                 }
                 .tabItem {
-                    Image(systemName: "map")
-                    Text("Map")
+                    VStack {
+                        Image(systemName: selectedTab == 2 ? "map.fill" : "map")
+                        Text("Map")
+                    }
                 }
-                
+                .tag(2)
+
                 NavigationStack {
                     SettingsTab()
                 }
                 .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
+                    VStack {
+                        Image(systemName: selectedTab == 3 ? "gearshape.fill" : "gearshape")
+                        Text("Settings")
+                    }
                 }
+                .tag(3)
             }
+            .tint(.purple)
             .onAppear {
                 locationService.requestPermission()
             }

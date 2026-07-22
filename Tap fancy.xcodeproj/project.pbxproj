@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0C1499300FF0F400C891AD /* UIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C1498300FF0F400C891AD /* UIComponents.swift */; };
 		9F3657B12FFFF72800E63392 /* PlayHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B02FFFF72800E63392 /* PlayHubApp.swift */; };
 		9F3657B42FFFF74800E63392 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B32FFFF74800E63392 /* GameMode.swift */; };
 		9F3657B62FFFF76800E63392 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B52FFFF76800E63392 /* GameSession.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F0C1498300FF0F400C891AD /* UIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponents.swift; sourceTree = "<group>"; };
 		9F3657B02FFFF72800E63392 /* PlayHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayHubApp.swift; sourceTree = "<group>"; };
 		9F3657B32FFFF74800E63392 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		9F3657B52FFFF76800E63392 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				9F3657C12FFFF7CD00E63392 /* ResultView.swift */,
 				9F3657C32FFFF7D900E63392 /* ScoreBadge.swift */,
+				9F0C1498300FF0F400C891AD /* UIComponents.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F3657B12FFFF72800E63392 /* PlayHubApp.swift in Sources */,
+				9F0C1499300FF0F400C891AD /* UIComponents.swift in Sources */,
 				9F3657C22FFFF7CD00E63392 /* ResultView.swift in Sources */,
 				9F3657BB2FFFF79300E63392 /* LocationService.swift in Sources */,
 				9F3657DE2FFFFA6B00E63392 /* TapFrenzyVM.swift in Sources */,
