@@ -11,51 +11,49 @@ struct SettingsTab: View {
     var body: some View {
         List {
             Section {
-                HStack(spacing: 15) {
+                HStack(spacing: 16) {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.purple, Color.blue]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 60, height: 60)
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(AppTheme.primaryGradient)
+                            .frame(width: 56, height: 56)
 
                         Image(systemName: "gamecontroller.fill")
-                            .font(.title)
+                            .font(.title2)
                             .foregroundColor(.white)
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("PlayHub")
-                            .font(.title2)
+                            .font(.title3)
                             .fontWeight(.bold)
+                            .foregroundColor(AppTheme.textPrimary)
 
                         Text("Your Gaming Companion")
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppTheme.textSecondary)
                     }
 
                     Spacer()
                 }
-                .padding(.vertical, 5)
+                .padding(.vertical, 8)
+                .listRowBackground(AppTheme.surfaceLight)
             }
 
             Section {
                 HStack {
-                    SettingsIcon(icon: "bell.fill", color: .orange)
+                    SettingsIcon(icon: "bell.fill", color: AppTheme.accent)
 
                     Toggle("Daily Reminder", isOn: $notificationsEnabled)
+                        .tint(AppTheme.primary)
                         .onChange(of: notificationsEnabled) { oldValue, newValue in
                             NotificationService.shared.setEnabled(newValue)
                         }
                 }
+                .listRowBackground(AppTheme.surfaceLight)
 
                 if notificationsEnabled {
                     HStack {
-                        SettingsIcon(icon: "clock.fill", color: .blue)
+                        SettingsIcon(icon: "clock.fill", color: AppTheme.primary)
 
                         DatePicker(
                             "Reminder Time",
@@ -66,45 +64,55 @@ struct SettingsTab: View {
                             NotificationService.shared.scheduleDailyReminder(at: newValue)
                         }
                     }
+                    .listRowBackground(AppTheme.surfaceLight)
 
                     HStack {
                         Spacer()
                         Text("We'll remind you to play at this time!")
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppTheme.textSecondary)
                         Spacer()
                     }
+                    .listRowBackground(AppTheme.surfaceLight)
                 }
             } header: {
                 Label("Notifications", systemImage: "bell.badge")
+                    .foregroundColor(AppTheme.textSecondary)
             }
 
             Section {
                 HStack {
-                    SettingsIcon(icon: "info.circle.fill", color: .blue)
+                    SettingsIcon(icon: "info.circle.fill", color: AppTheme.primary)
                     Text("Version")
+                        .foregroundColor(AppTheme.textPrimary)
                     Spacer()
                     Text("1.0.0")
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppTheme.textSecondary)
                 }
+                .listRowBackground(AppTheme.surfaceLight)
 
                 HStack {
-                    SettingsIcon(icon: "person.fill", color: .green)
+                    SettingsIcon(icon: "person.fill", color: AppTheme.primaryLight)
                     Text("Developer")
+                        .foregroundColor(AppTheme.textPrimary)
                     Spacer()
                     Text("Piyumi Imalka")
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppTheme.textSecondary)
                 }
+                .listRowBackground(AppTheme.surfaceLight)
 
                 HStack {
-                    SettingsIcon(icon: "swift", color: .orange)
+                    SettingsIcon(icon: "swift", color: AppTheme.accent)
                     Text("Built with")
+                        .foregroundColor(AppTheme.textPrimary)
                     Spacer()
                     Text("SwiftUI")
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppTheme.textSecondary)
                 }
+                .listRowBackground(AppTheme.surfaceLight)
             } header: {
                 Label("About", systemImage: "info.circle")
+                    .foregroundColor(AppTheme.textSecondary)
             }
 
             Section {
@@ -112,30 +120,39 @@ struct SettingsTab: View {
                     showResetAlert = true
                 }) {
                     HStack {
-                        SettingsIcon(icon: "trash.fill", color: .red)
+                        SettingsIcon(icon: "trash.fill", color: AppTheme.error)
                         Text("Reset All Stats")
-                            .foregroundColor(.red)
+                            .foregroundColor(AppTheme.error)
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppTheme.textMuted)
                     }
                 }
+                .listRowBackground(AppTheme.surfaceLight)
             } header: {
                 Label("Data", systemImage: "externaldrive")
+                    .foregroundColor(AppTheme.textSecondary)
             } footer: {
                 Text("This will permanently delete all your game history, high scores, and achievements.")
                     .font(.caption)
+                    .foregroundColor(AppTheme.textMuted)
             }
 
             Section {
-                FunFactRow(icon: "hand.tap.fill", color: .orange, fact: "Tap Frenzy", detail: "Test your speed!")
-                FunFactRow(icon: "lightbulb.fill", color: .yellow, fact: "Light It Up", detail: "Test your reflexes!")
-                FunFactRow(icon: "questionmark.circle.fill", color: .green, fact: "Quiz Rush", detail: "Test your knowledge!")
+                FunFactRow(icon: "hand.tap.fill", color: AppTheme.tapFrenzy, fact: "Tap Frenzy", detail: "Test your speed!")
+                    .listRowBackground(AppTheme.surfaceLight)
+                FunFactRow(icon: "lightbulb.fill", color: AppTheme.lightItUp, fact: "Light It Up", detail: "Test your reflexes!")
+                    .listRowBackground(AppTheme.surfaceLight)
+                FunFactRow(icon: "questionmark.circle.fill", color: AppTheme.quizRush, fact: "Quiz Rush", detail: "Test your knowledge!")
+                    .listRowBackground(AppTheme.surfaceLight)
             } header: {
                 Label("Games", systemImage: "gamecontroller")
+                    .foregroundColor(AppTheme.textSecondary)
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(AppTheme.background)
         .navigationTitle("Settings")
         .alert("Reset All Stats?", isPresented: $showResetAlert) {
             Button("Cancel", role: .cancel) { }
@@ -160,9 +177,9 @@ struct SettingsIcon: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 6)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(color)
-                .frame(width: 28, height: 28)
+                .frame(width: 30, height: 30)
 
             Image(systemName: icon)
                 .font(.system(size: 14))
@@ -178,17 +195,18 @@ struct FunFactRow: View {
     let detail: String
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 14) {
             SettingsIcon(icon: icon, color: color)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(fact)
                     .font(.subheadline)
                     .fontWeight(.medium)
+                    .foregroundColor(AppTheme.textPrimary)
 
                 Text(detail)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppTheme.textSecondary)
             }
         }
     }

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9F0C1499300FF0F400C891AD /* UIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C1498300FF0F400C891AD /* UIComponents.swift */; };
+		9F0C149D3010E4D800C891AD /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C149C3010E4D700C891AD /* AppTheme.swift */; };
+		9F0C149F3010F0FF00C891AD /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C149E3010F0FF00C891AD /* ProfileVM.swift */; };
+		9F0C14A13010F16E00C891AD /* ProfileTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C14A03010F16E00C891AD /* ProfileTab.swift */; };
+		9F0C14A33010F1DC00C891AD /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C14A23010F1DC00C891AD /* UserProfile.swift */; };
 		9F3657B12FFFF72800E63392 /* PlayHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B02FFFF72800E63392 /* PlayHubApp.swift */; };
 		9F3657B42FFFF74800E63392 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B32FFFF74800E63392 /* GameMode.swift */; };
 		9F3657B62FFFF76800E63392 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3657B52FFFF76800E63392 /* GameSession.swift */; };
@@ -55,6 +59,10 @@
 
 /* Begin PBXFileReference section */
 		9F0C1498300FF0F400C891AD /* UIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponents.swift; sourceTree = "<group>"; };
+		9F0C149C3010E4D700C891AD /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		9F0C149E3010F0FF00C891AD /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
+		9F0C14A03010F16E00C891AD /* ProfileTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
+		9F0C14A23010F1DC00C891AD /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		9F3657B02FFFF72800E63392 /* PlayHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayHubApp.swift; sourceTree = "<group>"; };
 		9F3657B32FFFF74800E63392 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		9F3657B52FFFF76800E63392 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
@@ -111,9 +119,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F0C149B3010E4BD00C891AD /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				9F0C149C3010E4D700C891AD /* AppTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		9F3657AE2FFFF6DF00E63392 /* PlayHubApp */ = {
 			isa = PBXGroup;
 			children = (
+				9F0C149B3010E4BD00C891AD /* Theme */,
 				9F3657D62FFFFA1100E63392 /* ViewModels */,
 				9F3657C52FFFF7DD00E63392 /* Views */,
 				9F3657C02FFFF7B600E63392 /* Shared */,
@@ -138,6 +155,7 @@
 				9F3657B32FFFF74800E63392 /* GameMode.swift */,
 				9F3657B52FFFF76800E63392 /* GameSession.swift */,
 				9F3657B72FFFF77400E63392 /* TriviaQuestion.swift */,
+				9F0C14A23010F1DC00C891AD /* UserProfile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,6 +206,7 @@
 				9F3657D02FFFF85300E63392 /* MapTab.swift */,
 				9F3657D22FFFF86400E63392 /* SettingsTab.swift */,
 				9F3657D42FFFF87200E63392 /* StatsTab.swift */,
+				9F0C14A03010F16E00C891AD /* ProfileTab.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -199,6 +218,7 @@
 				9F3657D92FFFFA3A00E63392 /* QuizRushVM.swift */,
 				9F3657DB2FFFFA4D00E63392 /* StatsVM.swift */,
 				9F3657DD2FFFFA6B00E63392 /* TapFrenzyVM.swift */,
+				9F0C149E3010F0FF00C891AD /* ProfileVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -399,17 +419,21 @@
 				9F3657DA2FFFFA3A00E63392 /* QuizRushVM.swift in Sources */,
 				9F3657D82FFFFA2800E63392 /* LightItUpVM.swift in Sources */,
 				9F3657C82FFFF7FF00E63392 /* LightItUpView.swift in Sources */,
+				9F0C14A13010F16E00C891AD /* ProfileTab.swift in Sources */,
 				9F3657CA2FFFF81300E63392 /* QuizRushView.swift in Sources */,
+				9F0C14A33010F1DC00C891AD /* UserProfile.swift in Sources */,
 				9F622F1D2FDC5C8100324505 /* Tap_fancyApp.swift in Sources */,
 				9F3657D32FFFF86400E63392 /* SettingsTab.swift in Sources */,
 				9F3657CF2FFFF84700E63392 /* HomeTab.swift in Sources */,
 				9F3657C42FFFF7D900E63392 /* ScoreBadge.swift in Sources */,
+				9F0C149D3010E4D800C891AD /* AppTheme.swift in Sources */,
 				9F3657BF2FFFF7AF00E63392 /* TriviaApi.swift in Sources */,
 				9F3657B42FFFF74800E63392 /* GameMode.swift in Sources */,
 				9F3657D52FFFF87200E63392 /* StatsTab.swift in Sources */,
 				9F3657BD2FFFF7A100E63392 /* NotificationService.swift in Sources */,
 				9F3657B82FFFF77400E63392 /* TriviaQuestion.swift in Sources */,
 				9F3657D12FFFF85300E63392 /* MapTab.swift in Sources */,
+				9F0C149F3010F0FF00C891AD /* ProfileVM.swift in Sources */,
 				9F3657B62FFFF76800E63392 /* GameSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

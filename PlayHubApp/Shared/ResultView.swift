@@ -13,42 +13,42 @@ struct ResultView: View {
     @State private var showConfetti = false
     @State private var scoreScale: CGFloat = 0.5
     @State private var trophyRotation: Double = 0
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
                 Text("GAME OVER!")
                     .font(.system(size: 36, weight: .bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textPrimary)
 
                 VStack(spacing: 8) {
                     Text("Your Score")
                         .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(AppTheme.textSecondary)
 
                     Text("\(score)")
                         .font(.system(size: 70, weight: .bold))
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppTheme.accent)
                         .scaleEffect(scoreScale)
                 }
                 .padding()
-                .background(Color.white.opacity(0.15))
+                .background(AppTheme.surfaceLight)
                 .cornerRadius(15)
 
-                // high scoretrophy 
+                // high score trophy 
                 HStack(spacing: 8) {
                     Image(systemName: "trophy.fill")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppTheme.accent)
                         .rotationEffect(.degrees(trophyRotation))
 
                     Text("High Score: \(highScore)")
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
-                .background(Color.white.opacity(0.2))
+                .background(AppTheme.surfaceLight)
                 .cornerRadius(10)
 
                 if isNewHighScore {
@@ -56,23 +56,23 @@ struct ResultView: View {
                         Text("NEW HIGH SCORE!")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accent)
 
                         HStack {
                             Text("🎉")
                             Text("Amazing!")
                                 .font(.headline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(AppTheme.textSecondary)
                             Text("🎉")
                         }
                     }
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.yellow.opacity(0.2))
+                            .fill(AppTheme.accent.opacity(0.2))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.yellow.opacity(0.5), lineWidth: 2)
+                                    .stroke(AppTheme.accent.opacity(0.5), lineWidth: 2)
                             )
                     )
                 }
@@ -89,10 +89,10 @@ struct ResultView: View {
                             Text("Share Score")
                         }
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textOnColor)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
+                        .background(AppTheme.primaryLight)
                         .cornerRadius(12)
                     }
                 }
@@ -116,7 +116,7 @@ struct ResultView: View {
                     trophyRotation = 15
                 }
             }
-        }       
+        }
     }
 }
 
@@ -134,22 +134,22 @@ struct SimpleResultView: View {
             VStack(spacing: 25) {
                 Text("GAME OVER!")
                     .font(.system(size: 40, weight: .bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textPrimary)
 
                 Text("Final Score")
                     .font(.headline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(AppTheme.textSecondary)
 
                 Text("\(score)")
                     .font(.system(size: 80, weight: .bold))
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.accent)
                     .scaleEffect(scoreScale)
 
                 HStack {
                     Image(systemName: "trophy.fill")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppTheme.accent)
                     Text("Best: \(highScore)")
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                 }
                 .font(.title3)
 
@@ -158,14 +158,14 @@ struct SimpleResultView: View {
                         Text("🎉 NEW HIGH SCORE! 🎉")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accent)
 
                         Text("You're on fire!")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                     .padding()
-                    .background(Color.yellow.opacity(0.2))
+                    .background(AppTheme.accent.opacity(0.2))
                     .cornerRadius(12)
                 }
 
@@ -187,7 +187,7 @@ struct SimpleResultView: View {
             if isNewHighScore {
                 showConfetti = true
             }
-        }       
+        }
     }
 }
 
@@ -202,17 +202,17 @@ struct AchievementBadge: View {
         VStack(spacing: 8) {
             ZStack {
                 Circle()
-                    .fill(isUnlocked ? color : Color.gray.opacity(0.3))
+                    .fill(isUnlocked ? color : AppTheme.surfaceLight)
                     .frame(width: 60, height: 60)
 
                 Image(systemName: isUnlocked ? icon : "lock.fill")
                     .font(.title2)
-                    .foregroundColor(isUnlocked ? .white : .gray)
+                    .foregroundColor(isUnlocked ? AppTheme.textOnColor : AppTheme.textMuted)
             }
 
             Text(title)
                 .font(.caption)
-                .foregroundColor(isUnlocked ? .white : .gray)
+                .foregroundColor(isUnlocked ? AppTheme.textPrimary : AppTheme.textMuted)
                 .multilineTextAlignment(.center)
         }
         .opacity(isUnlocked ? 1.0 : 0.6)

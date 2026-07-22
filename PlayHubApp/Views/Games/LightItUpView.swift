@@ -12,10 +12,8 @@ struct LightItUpView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.orange, Color.red]),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+            AppTheme.backgroundGradient
+                .ignoresSafeArea()
 
             VStack(spacing: 20) {
                 // header with high score
@@ -23,18 +21,18 @@ struct LightItUpView: View {
                     HStack {
                         Image(systemName: "lightbulb.fill")
                             .font(.title)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accentLight)
 
                         Text("LIGHT IT UP")
                             .font(.system(size: 35, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.textPrimary)
                     }
 
                     HStack {
                         Image(systemName: "trophy.fill")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accent)
                         Text("Best: \(viewModel.highScore)")
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                     .font(.headline)
                 }
@@ -53,7 +51,7 @@ struct LightItUpView: View {
             ToastBanner(
                 message: toastMessage,
                 icon: toastIcon,
-                color: .green,
+                color: AppTheme.success,
                 isShowing: $showToast
             )
         }
@@ -67,7 +65,7 @@ struct LightItUpView: View {
                             Image(systemName: "chevron.left")
                             Text("Home")
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                     }
                 }
             }
@@ -86,28 +84,29 @@ struct LightItUpView: View {
                 VStack {
                     Text("\(viewModel.score)")
                         .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                     Text("SCORE")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppTheme.textSecondary)
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.15))
+            .background(AppTheme.surfaceLight)
             .cornerRadius(15)
 
             // difficulty indicator
             HStack {
                 Image(systemName: "speedometer")
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.accent)
                 Text(difficultyText)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(AppTheme.textPrimary)
             }
             .padding(.horizontal, 15)
             .padding(.vertical, 6)
-            .background(Color.white.opacity(0.2))
+            .background(AppTheme.surface)
             .cornerRadius(10)
+            .shadow(color: AppTheme.cardShadowColor, radius: 5)
 
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 15), count: viewModel.gridColumns), spacing: 15) {
                 ForEach(viewModel.cards) { card in
@@ -140,28 +139,28 @@ struct LightItUpView: View {
                     highScore: viewModel.highScore,
                     isNewHighScore: viewModel.score == viewModel.highScore,
                     shareMessage: "I just scored \(viewModel.score) on Light It Up - beat that! 💡",
-                    accentColor: .green,
+                    accentColor: AppTheme.lightItUp,
                     onPlayAgain: { viewModel.startGame() }
                 )
             } else {
                 VStack(spacing: 20) {
                     ZStack {
                         Circle()
-                            .fill(Color.yellow.opacity(0.3))
+                            .fill(AppTheme.accentLight.opacity(0.3))
                             .frame(width: 100, height: 100)
 
                         Image(systemName: "lightbulb.fill")
                             .font(.system(size: 50))
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accentLight)
                     }
 
                     Text("Ready to Play?")
                         .font(.system(size: 35, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
 
                     Text("Tap the glowing card before it goes dark!")
                         .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(AppTheme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
 
@@ -172,12 +171,12 @@ struct LightItUpView: View {
                         HintRow(icon: "xmark.circle", text: "Miss = Game Over!")
                     }
                     .padding()
-                    .background(Color.white.opacity(0.15))
+                    .background(AppTheme.surfaceLight)
                     .cornerRadius(12)
                     .padding(.horizontal)
                 }
 
-                BouncingPlayButton(title: "START GAME", color: .green) {
+                BouncingPlayButton(title: "START GAME", color: AppTheme.accent) {
                     viewModel.startGame()
                 }
             }
@@ -210,7 +209,7 @@ struct EnhancedCardView: View {
         ZStack {
             if isLit {
                 RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.yellow)
+                    .fill(AppTheme.accentLight)
                     .frame(height: 120)
                     .blur(radius: 15)
                     .opacity(glowOpacity)
@@ -220,12 +219,12 @@ struct EnhancedCardView: View {
                 .fill(
                     isLit ?
                     LinearGradient(
-                        gradient: Gradient(colors: [Color.yellow, Color.orange]),
+                        gradient: Gradient(colors: [AppTheme.accentLight, AppTheme.accent]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ) :
                     LinearGradient(
-                        gradient: Gradient(colors: [Color.white.opacity(0.3), Color.white.opacity(0.2)]),
+                        gradient: Gradient(colors: [AppTheme.surface, AppTheme.surface]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -233,16 +232,16 @@ struct EnhancedCardView: View {
                 .frame(height: 120)
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
-                        .stroke(isLit ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                        .stroke(isLit ? AppTheme.textOnColor.opacity(0.5) : AppTheme.textMuted.opacity(0.3), lineWidth: 2)
                 )
-                .shadow(color: isLit ? Color.yellow.opacity(0.6) : Color.clear, radius: 10)
+                .shadow(color: isLit ? AppTheme.accentLight.opacity(0.6) : Color.clear, radius: 10)
                 .scaleEffect(isLit ? 1.05 : 1.0)
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isLit)
 
             if isLit {
                 Image(systemName: "sparkle")
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textOnColor)
             }
         }
         .onAppear {
@@ -262,12 +261,12 @@ struct HintRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.yellow)
+                .foregroundColor(AppTheme.accent)
                 .frame(width: 25)
 
             Text(text)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(AppTheme.textPrimary)
 
             Spacer()
         }
@@ -279,9 +278,9 @@ struct CardView: View {
 
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
-            .fill(isLit ? Color.yellow : Color.white.opacity(0.3))
+            .fill(isLit ? AppTheme.accentLight : AppTheme.surface)
             .frame(height: 120)
-            .shadow(color: isLit ? Color.yellow.opacity(0.6) : Color.clear, radius: 10)
+            .shadow(color: isLit ? AppTheme.accentLight.opacity(0.6) : Color.clear, radius: 10)
             .scaleEffect(isLit ? 1.1 : 1.0)
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isLit)
     }

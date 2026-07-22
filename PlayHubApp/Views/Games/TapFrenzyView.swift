@@ -13,23 +13,21 @@ struct TapFrenzyView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+            AppTheme.backgroundGradient
+                .ignoresSafeArea()
 
             VStack(spacing: 25) {
                 // header with high score
                 VStack(spacing: 8) {
                     Text("TAP FRENZY")
                         .font(.system(size: 40, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
 
                     HStack {
                         Image(systemName: "trophy.fill")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accent)
                         Text("Best: \(viewModel.highScore)")
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                     .font(.headline)
                 }
@@ -48,7 +46,7 @@ struct TapFrenzyView: View {
             ToastBanner(
                 message: toastMessage,
                 icon: "flame.fill",
-                color: .orange,
+                color: AppTheme.accent,
                 isShowing: $showToast
             )
         }
@@ -62,7 +60,7 @@ struct TapFrenzyView: View {
                             Image(systemName: "chevron.left")
                             Text("Home")
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                     }
                 }
             }
@@ -84,7 +82,7 @@ struct TapFrenzyView: View {
                 // Ripple effect 
                 if showRipple {
                     Circle()
-                        .stroke(Color.orange.opacity(0.5), lineWidth: 3)
+                        .stroke(AppTheme.accent.opacity(0.5), lineWidth: 3)
                         .frame(width: 200, height: 200)
                         .scaleEffect(showRipple ? 1.5 : 1.0)
                         .opacity(showRipple ? 0 : 1)
@@ -96,13 +94,13 @@ struct TapFrenzyView: View {
                 }) {
                     Text("TAP!")
                         .font(.system(size: 50, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textOnColor)
                         .frame(width: 200, height: 200)
                         .background(
                             Circle()
                                 .fill(
                                     RadialGradient(
-                                        gradient: Gradient(colors: [Color.orange, Color.red]),
+                                        gradient: Gradient(colors: [AppTheme.accent, AppTheme.accentDark]),
                                         center: .center,
                                         startRadius: 5,
                                         endRadius: 100
@@ -110,7 +108,7 @@ struct TapFrenzyView: View {
                                 )
                         )
                         .clipShape(Circle())
-                        .shadow(color: .orange.opacity(0.5), radius: 15, x: 0, y: 5)
+                        .shadow(color: AppTheme.accent.opacity(0.5), radius: 15, x: 0, y: 5)
                 }
                 .scaleEffect(tapScale)
             }
@@ -118,15 +116,16 @@ struct TapFrenzyView: View {
             // Speed indicator
             HStack {
                 Image(systemName: "bolt.fill")
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.accent)
                 Text(tapSpeedText)
                     .font(.headline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(AppTheme.textPrimary)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 8)
-            .background(Color.white.opacity(0.2))
+            .background(AppTheme.surface)
             .cornerRadius(20)
+            .shadow(color: AppTheme.cardShadowColor, radius: 5)
         }
     }
 
@@ -154,28 +153,28 @@ struct TapFrenzyView: View {
                     highScore: viewModel.highScore,
                     isNewHighScore: viewModel.score == viewModel.highScore,
                     shareMessage: "I just scored \(viewModel.score) on Tap Frenzy - beat that! 🎮",
-                    accentColor: .green,
+                    accentColor: AppTheme.tapFrenzy,
                     onPlayAgain: { viewModel.startGame() }
                 )
             } else {
                 VStack(spacing: 20) {
                     Image(systemName: "hand.tap.fill")
                         .font(.system(size: 60))
-                        .foregroundColor(.orange)
+                        .foregroundColor(AppTheme.accent)
 
                     Text("Ready to Tap?")
                         .font(.system(size: 35, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                         .multilineTextAlignment(.center)
 
                     Text("Tap as many times as you can in 10 seconds!")
                         .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(AppTheme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                 }
 
-                BouncingPlayButton(title: "START GAME", color: .green) {
+                BouncingPlayButton(title: "START GAME", color: AppTheme.accent) {
                     viewModel.startGame()
                 }
             }

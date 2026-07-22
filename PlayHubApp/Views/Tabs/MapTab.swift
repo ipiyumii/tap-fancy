@@ -28,24 +28,24 @@ struct MapTab: View {
             if sessionsWithLocation.isEmpty {
                 VStack {
                     Spacer()
-                    
+
                     VStack(spacing: 12) {
                         Image(systemName: "map")
                             .font(.largeTitle)
-                            .foregroundColor(.gray)
-                        
+                            .foregroundColor(AppTheme.primary)
+
                         Text("No Game Locations Yet")
                             .font(.headline)
-                        
+
                         Text("Play games to see where you played!")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     .padding()
-                    .background(Color.white.opacity(0.9))
+                    .background(Color(.systemBackground).opacity(0.95))
                     .cornerRadius(12)
-                    .shadow(radius: 5)
-                    
+                    .shadow(color: AppTheme.primary.opacity(0.2), radius: 5)
+
                     Spacer()
                 }
             }
@@ -55,23 +55,23 @@ struct MapTab: View {
             loadSessions()
         }
     }
-    
+
     var sessionsWithLocation: [GameSession] {
         sessions.filter { $0.latitude != nil && $0.longitude != nil }
     }
-    
+
     func loadSessions() {
         sessions = SessionManager.shared.loadSessions()
     }
-    
+
     func markerColor(for mode: GameMode) -> Color {
         switch mode {
         case .tapFrenzy:
-            return .orange
+            return AppTheme.tapFrenzy
         case .lightItUp:
-            return .yellow
+            return AppTheme.lightItUp
         case .quizRush:
-            return .green
+            return AppTheme.quizRush
         }
     }
 }

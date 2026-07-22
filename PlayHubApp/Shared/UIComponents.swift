@@ -1,9 +1,3 @@
-//
-//  UIComponents.swift
-//  Tap fancy
-//
-//  Created by Piyumi Imalka on 2026-07-21.
-//
 
 import Foundation
 import SwiftUI
@@ -20,25 +14,34 @@ struct WelcomeBanner: View {
     @State private var opacity: Double = 1.0
 
     var body: some View {
-        HStack {
-            Image(systemName: "lightbulb.fill")
-                .foregroundColor(.yellow)
-                .font(.title3)
+        HStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(AppTheme.accent.opacity(0.2))
+                    .frame(width: 40, height: 40)
+
+                Image(systemName: "lightbulb.fill")
+                    .foregroundColor(AppTheme.accent)
+                    .font(.body)
+            }
 
             Text(tips[currentTipIndex])
                 .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textPrimary)
                 .opacity(opacity)
 
             Spacer()
         }
-        .padding()
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.2))
+            RoundedRectangle(cornerRadius: 14)
+                .fill(AppTheme.surfaceLight)
         )
-        .padding(.horizontal)
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(AppTheme.primary.opacity(0.2), lineWidth: 1)
+        )
+        .padding(.horizontal, 20)
         .onAppear {
             startRotation()
         }
@@ -67,57 +70,165 @@ struct AnimatedGameCard: View {
     let description: String
 
     @State private var isPressed = false
-    @State private var isPulsing = false
 
     var body: some View {
-        HStack(spacing: 15) {
+        HStack(spacing: 16) {
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.3))
-                    .frame(width: 55, height: 55)
-                    .scaleEffect(isPulsing ? 1.15 : 1.0)
-                    .opacity(isPulsing ? 0.5 : 1.0)
+                    .fill(
+                        LinearGradient(
+                            colors: [color, color.opacity(0.8)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 56, height: 56)
 
                 Image(systemName: icon)
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.white)
             }
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(AppTheme.textPrimary)
 
                 Text(description)
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.8))
+                    .font(.subheadline)
+                    .foregroundColor(AppTheme.textSecondary)
             }
 
             Spacer()
 
-            Image(systemName: "play.circle.fill")
-                .font(.title)
-                .foregroundColor(.white.opacity(0.8))
+            Image(systemName: "chevron.right")
+                .font(.body)
+                .foregroundColor(AppTheme.textMuted)
         }
-        .padding()
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 18)
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [color, color.opacity(0.7)]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+            RoundedRectangle(cornerRadius: 16)
+                .fill(AppTheme.surfaceLight)
         )
-        .shadow(color: color.opacity(0.4), radius: isPressed ? 3 : 8, x: 0, y: isPressed ? 2 : 5)
-        .scaleEffect(isPressed ? 0.97 : 1.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
-        .onAppear {
-            withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-                isPulsing = true
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(AppTheme.primary.opacity(0.15), lineWidth: 1)
+        )
+        .scaleEffect(isPressed ? 0.98 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPressed)
+    }
+}
+
+struct QuickGamePreview: View {
+    let gameName: String
+    let gameIcon: String
+    let gameColor: Color
+    @Binding var isShowing: Bool
+    let onStart: () -> Void
+
+    @State private var countdown = 3
+    @State private var scale: CGFloat = 0.8
+    @State private var opacity: Double = 0
+
+    var body: some View {
+        if isShowing {
+            ZStack {
+                Color.black.opacity(0.7)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        startGame()
+                    }
+
+                VStack(spacing: 20) {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [gameColor, gameColor.opacity(0.8)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 80, height: 80)
+
+                        Image(systemName: gameIcon)
+                            .font(.system(size: 36))
+                            .foregroundColor(.white)
+                    }
+                    .shadow(color: gameColor.opacity(0.5), radius: 15, x: 0, y: 5)
+
+                    Text(gameName)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+
+                    // Countdown
+                    Text("Starting in \(countdown)...")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+
+                    // Progress bar
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.white.opacity(0.2))
+                                .frame(height: 6)
+
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(gameColor)
+                                .frame(width: geo.size.width * CGFloat(3 - countdown) / 3, height: 6)
+                                .animation(.linear(duration: 1), value: countdown)
+                        }
+                    }
+                    .frame(height: 6)
+                    .frame(width: 150)
+
+                    Text("Tap anywhere to start now")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.5))
+                }
+                .padding(30)
+                .background(
+                    RoundedRectangle(cornerRadius: 24)
+                        .fill(AppTheme.surfaceElevated)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(gameColor.opacity(0.3), lineWidth: 1)
+                )
+                .scaleEffect(scale)
+                .opacity(opacity)
             }
+            .onAppear {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    scale = 1.0
+                    opacity = 1.0
+                }
+                startCountdown()
+            }
+        }
+    }
+
+    private func startCountdown() {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if countdown > 1 {
+                countdown -= 1
+            } else {
+                timer.invalidate()
+                startGame()
+            }
+        }
+    }
+
+    private func startGame() {
+        withAnimation(.easeOut(duration: 0.2)) {
+            scale = 1.1
+            opacity = 0
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            isShowing = false
+            onStart()
         }
     }
 }
@@ -132,23 +243,23 @@ struct CountdownOverlay: View {
     var body: some View {
         if isShowing {
             ZStack {
-                Color.black.opacity(0.7)
+                Color.black.opacity(0.8)
                     .ignoresSafeArea()
 
                 VStack(spacing: 20) {
                     Text("Get Ready!")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textOnColor)
 
                     Text("\(countdownValue)")
                         .font(.system(size: 120, weight: .bold))
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppTheme.accent)
                         .scaleEffect(scale)
 
                     Text("Starting soon...")
                         .font(.headline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(AppTheme.textOnColor.opacity(0.7))
                 }
             }
             .onAppear {
@@ -195,11 +306,11 @@ struct ToastBanner: View {
                 HStack(spacing: 12) {
                     Image(systemName: icon)
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textOnColor)
 
                     Text(message)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textOnColor)
                 }
                 .padding()
                 .background(
@@ -232,69 +343,92 @@ struct GameStartSheet: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        VStack(spacing: 25) {
-            VStack(spacing: 15) {
+        VStack(spacing: 30) {
+            VStack(spacing: 20) {
                 ZStack {
                     Circle()
-                        .fill(gameColor.opacity(0.2))
+                        .fill(
+                            LinearGradient(
+                                colors: [gameColor, gameColor.opacity(0.8)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .frame(width: 100, height: 100)
 
                     Image(systemName: gameIcon)
                         .font(.system(size: 45))
-                        .foregroundColor(gameColor)
+                        .foregroundColor(.white)
                 }
+                .shadow(color: gameColor.opacity(0.4), radius: 12, x: 0, y: 6)
 
                 Text(gameName)
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.bold)
+                    .foregroundColor(AppTheme.textPrimary)
             }
 
-            VStack(spacing: 10) {
-                HStack {
-                    Image(systemName: "trophy.fill")
-                        .foregroundColor(.yellow)
-                    Text("Your Best: \(bestScore)")
-                        .font(.headline)
+            HStack(spacing: 12) {
+                Image(systemName: "trophy.fill")
+                    .foregroundColor(AppTheme.accent)
+                    .font(.title3)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Your Best")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                    Text("\(bestScore)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.textPrimary)
                 }
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
+
+                Spacer()
             }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(AppTheme.surfaceLight)
+            )
+            .padding(.horizontal, 40)
 
-            Text("Are you ready to play?")
-                .font(.title3)
-                .foregroundColor(.gray)
+            Text("Ready to play?")
+                .font(.body)
+                .foregroundColor(AppTheme.textSecondary)
 
-            HStack(spacing: 20) {
+            VStack(spacing: 12) {
+                Button(action: {
+                    dismiss()
+                    onStart()
+                }) {
+                    Text("Start Game")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(gameColor)
+                        )
+                        .shadow(color: gameColor.opacity(0.4), radius: 8, x: 0, y: 4)
+                }
+
                 Button(action: {
                     dismiss()
                 }) {
                     Text("Not Now")
                         .font(.headline)
-                        .foregroundColor(.gray)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 15)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(12)
-                }
-
-                Button(action: {
-                    dismiss()
-                    onStart()
-                }) {
-                    Text("Let's Go!")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 15)
-                        .background(gameColor)
-                        .cornerRadius(12)
+                        .foregroundColor(AppTheme.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
                 }
             }
+            .padding(.horizontal, 30)
 
             Spacer()
         }
         .padding(.top, 40)
+        .background(AppTheme.surface.ignoresSafeArea())
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
@@ -307,19 +441,19 @@ struct StreakBadge: View {
     var body: some View {
         HStack(spacing: 5) {
             Image(systemName: "flame.fill")
-                .foregroundColor(.orange)
+                .foregroundColor(AppTheme.accent)
                 .scaleEffect(isAnimating ? 1.2 : 1.0)
 
             Text("\(streakCount)")
                 .font(.headline)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textPrimary)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
         .background(
             Capsule()
-                .fill(Color.orange.opacity(0.3))
+                .fill(AppTheme.accent.opacity(0.3))
         )
         .onAppear {
             if streakCount >= 3 {
@@ -352,7 +486,7 @@ struct BouncingPlayButton: View {
             Text(title)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textOnColor)
                 .padding(.horizontal, 45)
                 .padding(.vertical, 20)
                 .background(color)
@@ -379,27 +513,39 @@ struct DailyChallengeBanner: View {
                 }
             }) {
                 HStack {
-                    Image(systemName: "star.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.yellow)
+                    ZStack {
+                        Circle()
+                            .fill(AppTheme.accent)
+                            .frame(width: 40, height: 40)
 
-                    Text("Daily Challenge")
-                        .font(.headline)
-                        .foregroundColor(.white)
+                        Image(systemName: "star.fill")
+                            .font(.body)
+                            .foregroundColor(.white)
+                    }
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Daily Challenge")
+                            .font(.headline)
+                            .foregroundColor(AppTheme.textPrimary)
+
+                        Text("Complete all games today")
+                            .font(.caption)
+                            .foregroundColor(AppTheme.textSecondary)
+                    }
 
                     Spacer()
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppTheme.textMuted)
                 }
-                .padding()
+                .padding(16)
                 .background(
-                    RoundedRectangle(cornerRadius: isExpanded ? 15 : 15)
-                        .fill(LinearGradient(
-                            gradient: Gradient(colors: [Color.pink, Color.purple]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ))
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(AppTheme.surfaceLight)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(AppTheme.accent.opacity(0.3), lineWidth: 1)
                 )
             }
 
@@ -407,18 +553,18 @@ struct DailyChallengeBanner: View {
                 VStack(spacing: 12) {
                     Text("Score 50+ in each game today!")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(AppTheme.textPrimary)
 
                     HStack(spacing: 20) {
-                        ChallengeProgress(icon: "hand.tap.fill", completed: false)
-                        ChallengeProgress(icon: "lightbulb.fill", completed: false)
-                        ChallengeProgress(icon: "questionmark.circle.fill", completed: false)
+                        ChallengeProgress(icon: "hand.tap.fill", color: AppTheme.tapFrenzy, completed: false)
+                        ChallengeProgress(icon: "lightbulb.fill", color: AppTheme.lightItUp, completed: false)
+                        ChallengeProgress(icon: "questionmark.circle.fill", color: AppTheme.quizRush, completed: false)
                     }
                 }
                 .padding()
-                .background(Color.purple.opacity(0.3))
-                .cornerRadius(15)
-                .padding(.top, -5)
+                .background(AppTheme.surface)
+                .cornerRadius(16)
+                .padding(.top, -8)
             }
         }
         .padding(.horizontal)
@@ -427,16 +573,17 @@ struct DailyChallengeBanner: View {
 
 struct ChallengeProgress: View {
     let icon: String
+    let color: Color
     let completed: Bool
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(completed ? Color.green : Color.white.opacity(0.3))
-                .frame(width: 45, height: 45)
+                .fill(completed ? AppTheme.success.opacity(0.2) : color.opacity(0.2))
+                .frame(width: 48, height: 48)
 
             Image(systemName: completed ? "checkmark" : icon)
-                .foregroundColor(.white)
+                .foregroundColor(completed ? AppTheme.success : color)
                 .font(.title3)
         }
     }
@@ -461,7 +608,7 @@ struct ConfettiView: View {
     }
 
     private func createConfetti() {
-        let colors: [Color] = [.red, .yellow, .green, .blue, .pink, .orange, .purple]
+        let colors: [Color] = AppTheme.confettiColors
 
         for i in 0..<50 {
             let piece = ConfettiPiece(

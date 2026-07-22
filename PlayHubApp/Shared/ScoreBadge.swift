@@ -6,15 +6,15 @@ struct ScoreBadge: View {
     let label: String
     let value: Int
     var fontSize: CGFloat = 50
-    
+
     var body: some View {
         VStack(spacing: 5) {
             Text(label)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(AppTheme.textSecondary)
             Text("\(value)")
                 .font(.system(size: fontSize, weight: .bold))
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textPrimary)
         }
     }
 }
@@ -25,14 +25,14 @@ struct ScoreBadgeWithIcon: View {
     let value: Int
     let icon: String
     var fontSize: CGFloat = 24
-    var highlightColor: Color = .yellow
+    var highlightColor: Color = AppTheme.accent
     var isHighlighted: Bool = false
-    
+
     var body: some View {
         VStack(spacing: 5) {
             Text(label)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(AppTheme.textSecondary)
             HStack(spacing: 4) {
                 if isHighlighted {
                     Image(systemName: icon)
@@ -40,7 +40,7 @@ struct ScoreBadgeWithIcon: View {
                 }
                 Text("\(value)")
                     .font(.system(size: fontSize, weight: .bold))
-                    .foregroundColor(isHighlighted ? highlightColor : .white)
+                    .foregroundColor(isHighlighted ? highlightColor : AppTheme.textPrimary)
             }
         }
     }

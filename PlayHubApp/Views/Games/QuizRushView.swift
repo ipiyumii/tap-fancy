@@ -8,17 +8,13 @@ struct QuizRushView: View {
 
     @State private var showToast = false
     @State private var toastMessage = ""
-    @State private var toastColor: Color = .green
+    @State private var toastColor: Color = AppTheme.success
     @State private var selectedAnswer: String? = nil
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.green, Color.teal]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.backgroundGradient
+                .ignoresSafeArea()
 
             VStack(spacing: 20) {
                 // header
@@ -26,18 +22,18 @@ struct QuizRushView: View {
                     HStack {
                         Image(systemName: "brain.head.profile")
                             .font(.title)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accentLight)
 
                         Text("QUIZ RUSH")
                             .font(.system(size: 35, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.textPrimary)
                     }
 
                     HStack {
                         Image(systemName: "trophy.fill")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(AppTheme.accent)
                         Text("Best: \(viewModel.highScore)")
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
                     .font(.headline)
                 }
@@ -81,7 +77,7 @@ struct QuizRushView: View {
                             Image(systemName: "chevron.left")
                             Text("Home")
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                     }
                 }
             }
@@ -92,11 +88,11 @@ struct QuizRushView: View {
         .onChange(of: viewModel.streak) { oldValue, newValue in
             if newValue == 3 {
                 toastMessage = "3 Streak! +5 Bonus!"
-                toastColor = .orange
+                toastColor = AppTheme.warning
                 withAnimation { showToast = true }
             } else if newValue == 5 {
                 toastMessage = "5 Streak! On Fire!"
-                toastColor = .red
+                toastColor = AppTheme.accent
                 withAnimation { showToast = true }
             }
         }
@@ -106,24 +102,24 @@ struct QuizRushView: View {
         VStack(spacing: 25) {
             ZStack {
                 Circle()
-                    .stroke(Color.white.opacity(0.3), lineWidth: 4)
+                    .stroke(AppTheme.textPrimary.opacity(0.3), lineWidth: 4)
                     .frame(width: 80, height: 80)
 
                 ProgressView()
                     .scaleEffect(2)
-                    .tint(.white)
+                    .tint(AppTheme.textPrimary)
             }
 
             Text("Loading Questions...")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textPrimary)
 
             Text("Preparing your quiz challenge!")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(AppTheme.textSecondary)
         }
         .padding()
-        .background(Color.white.opacity(0.15))
+        .background(AppTheme.surfaceLight)
         .cornerRadius(20)
     }
 
@@ -131,23 +127,23 @@ struct QuizRushView: View {
         VStack(spacing: 30) {
             ZStack {
                 Circle()
-                    .fill(Color.red.opacity(0.2))
+                    .fill(AppTheme.error.opacity(0.2))
                     .frame(width: 100, height: 100)
 
                 Image(systemName: "wifi.exclamationmark")
                     .font(.system(size: 50))
-                    .foregroundColor(.yellow)
+                    .foregroundColor(AppTheme.accent)
             }
 
             VStack(spacing: 10) {
                 Text("Oops! Something went wrong")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textPrimary)
 
                 Text("Check your internet connection")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(AppTheme.textSecondary)
             }
 
             Button(action: {
@@ -159,15 +155,15 @@ struct QuizRushView: View {
                 }
                 .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textOnColor)
                 .padding(.horizontal, 40)
                 .padding(.vertical, 15)
-                .background(Color.orange)
+                .background(AppTheme.accent)
                 .cornerRadius(15)
             }
         }
         .padding()
-        .background(Color.white.opacity(0.1))
+        .background(AppTheme.surface)
         .cornerRadius(20)
     }
 
@@ -178,11 +174,11 @@ struct QuizRushView: View {
                 VStack(spacing: 4) {
                     Text("Question")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppTheme.textSecondary)
                     Text("\(viewModel.currentQuestionIndex + 1)/10")
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
                 }
 
                 Spacer()
@@ -191,11 +187,11 @@ struct QuizRushView: View {
                 VStack(spacing: 4) {
                     Text("Score")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(AppTheme.textSecondary)
                     Text("\(viewModel.score)")
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(AppTheme.accent)
                 }
 
                 Spacer()
@@ -206,7 +202,7 @@ struct QuizRushView: View {
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.2))
+            .background(AppTheme.surfaceLight)
             .cornerRadius(15)
             .padding(.horizontal)
 
@@ -214,11 +210,11 @@ struct QuizRushView: View {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(Color.white.opacity(0.3))
+                        .fill(AppTheme.textPrimary.opacity(0.3))
                         .frame(height: 8)
 
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(Color.yellow)
+                        .fill(AppTheme.accent)
                         .frame(width: geometry.size.width * CGFloat(viewModel.currentQuestionIndex + 1) / 10, height: 8)
                         .animation(.easeInOut, value: viewModel.currentQuestionIndex)
                 }
@@ -234,17 +230,17 @@ struct QuizRushView: View {
                         VStack(spacing: 10) {
                             Image(systemName: "questionmark.circle.fill")
                                 .font(.title)
-                                .foregroundColor(.yellow)
+                                .foregroundColor(AppTheme.accent)
 
                             Text(decodeHTML(question.question))
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppTheme.textPrimary)
                                 .multilineTextAlignment(.center)
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.white.opacity(0.2))
+                        .background(AppTheme.surfaceLight)
                         .cornerRadius(15)
 
                         // answers
@@ -272,8 +268,8 @@ struct QuizRushView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 20)
                         .fill(
-                            viewModel.showCorrectFeedback ? Color.green.opacity(0.3) :
-                            viewModel.showWrongFeedback ? Color.red.opacity(0.3) :
+                            viewModel.showCorrectFeedback ? AppTheme.success.opacity(0.3) :
+                            viewModel.showWrongFeedback ? AppTheme.error.opacity(0.3) :
                             Color.clear
                         )
                         .animation(.easeInOut(duration: 0.3), value: viewModel.showCorrectFeedback)
@@ -292,33 +288,33 @@ struct QuizRushView: View {
                     highScore: viewModel.highScore,
                     isNewHighScore: viewModel.score == viewModel.highScore,
                     shareMessage: "I just scored \(viewModel.score) on Quiz Rush - beat that! 🧠",
-                    accentColor: .blue,
+                    accentColor: AppTheme.quizRush,
                     onPlayAgain: { viewModel.startGame() }
                 )
             } else {
                 VStack(spacing: 20) {
                     ZStack {
                         Circle()
-                            .fill(Color.blue.opacity(0.3))
+                            .fill(AppTheme.quizRush.opacity(0.3))
                             .frame(width: 100, height: 100)
 
                         Image(systemName: "brain.head.profile")
                             .font(.system(size: 50))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppTheme.textPrimary)
                     }
 
                     Text("Ready to Play?")
                         .font(.system(size: 35, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppTheme.textPrimary)
 
                     VStack(spacing: 8) {
                         Text("Answer 10 trivia questions!")
                             .font(.headline)
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(AppTheme.textSecondary)
 
                         Text("Build streaks for bonus points!")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(AppTheme.textSecondary)
                     }
 
                     // scoring info
@@ -327,11 +323,11 @@ struct QuizRushView: View {
                         ScoringInfo(points: "+5", label: "3+ Streak")
                     }
                     .padding()
-                    .background(Color.white.opacity(0.15))
+                    .background(AppTheme.surfaceLight)
                     .cornerRadius(12)
                 }
 
-                BouncingPlayButton(title: "START QUIZ", color: .blue) {
+                BouncingPlayButton(title: "START QUIZ", color: AppTheme.quizRush) {
                     viewModel.startGame()
                 }
             }
@@ -354,6 +350,7 @@ struct QuizRushView: View {
     }
 }
 
+// Enhanced Answer Button with visual feedback
 struct EnhancedAnswerButton: View {
     let answer: String
     let index: Int
@@ -366,9 +363,9 @@ struct EnhancedAnswerButton: View {
 
     var backgroundColor: Color {
         if showResult && isSelected {
-            return isCorrect ? Color.green.opacity(0.5) : Color.red.opacity(0.5)
+            return isCorrect ? AppTheme.success.opacity(0.5) : AppTheme.error.opacity(0.5)
         }
-        return Color.white.opacity(0.3)
+        return AppTheme.surface
     }
 
     var body: some View {
@@ -377,20 +374,20 @@ struct EnhancedAnswerButton: View {
                 Text(letters[index])
                     .font(.headline)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textPrimary)
                     .frame(width: 35, height: 35)
-                    .background(Circle().fill(Color.white.opacity(0.3)))
+                    .background(Circle().fill(AppTheme.primaryLight.opacity(0.5)))
 
                 Text(answer)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppTheme.textPrimary)
                     .multilineTextAlignment(.leading)
 
                 Spacer()
 
                 if showResult && isSelected {
                     Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundColor(isCorrect ? .green : .red)
+                        .foregroundColor(isCorrect ? AppTheme.success : AppTheme.error)
                         .font(.title2)
                 }
             }
@@ -400,13 +397,14 @@ struct EnhancedAnswerButton: View {
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color.white : Color.clear, lineWidth: 2)
+                    .stroke(isSelected ? AppTheme.textPrimary : Color.clear, lineWidth: 2)
             )
         }
         .disabled(showResult)
     }
 }
 
+// Scoring Info Component
 struct ScoringInfo: View {
     let points: String
     let label: String
@@ -416,11 +414,11 @@ struct ScoringInfo: View {
             Text(points)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.yellow)
+                .foregroundColor(AppTheme.accent)
 
             Text(label)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(AppTheme.textSecondary)
         }
     }
 }

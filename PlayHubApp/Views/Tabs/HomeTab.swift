@@ -2,41 +2,40 @@
 import Foundation
 import SwiftUI
 struct HomeTab: View {
-    @State private var showTapFrenzySheet = false
-    @State private var showLightItUpSheet = false
-    @State private var showQuizRushSheet = false
-    @State private var showCountdown = false
+    @State private var showGamePreview = false
     @State private var selectedGame: GameMode? = nil
     @State private var activeGame: GameMode? = nil
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.purple.opacity(0.8), Color.blue.opacity(0.8)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppTheme.background
+                .ignoresSafeArea()
 
             ScrollView {
                 VStack(spacing: 20) {
                     // App Title with fun animation
                     VStack(spacing: 8) {
-                        HStack(spacing: 10) {
-                            Image(systemName: "gamecontroller.fill")
-                                .font(.system(size: 35))
-                                .foregroundColor(.yellow)
+                        HStack(spacing: 12) {
+                            ZStack {
+                                Circle()
+                                    .fill(AppTheme.primaryGradient)
+                                    .frame(width: 48, height: 48)
+
+                                Image(systemName: "gamecontroller.fill")
+                                    .font(.title3)
+                                    .foregroundColor(.white)
+                            }
 
                             Text("PlayHub")
-                                .font(.system(size: 42, weight: .bold))
-                                .foregroundColor(.white)
+                                .font(.system(size: 32, weight: .bold))
+                                .foregroundColor(AppTheme.textPrimary)
                         }
 
                         Text("Choose your adventure!")
-                            .font(.title3)
-                            .foregroundColor(.white.opacity(0.8))
+                            .font(.subheadline)
+                            .foregroundColor(AppTheme.textSecondary)
                     }
-                    .padding(.top, 30)
+                    .padding(.top, 20)
 
                     // Welcome Banner with rotating tips
                     WelcomeBanner()
@@ -47,63 +46,71 @@ struct HomeTab: View {
                         .padding(.top, 5)
 
                     // Games Section
-                    VStack(spacing: 15) {
+                    VStack(spacing: 12) {
                         Text("Games")
-                            .font(.headline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(AppTheme.textSecondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
+                            .padding(.horizontal, 4)
 
                         // Tap Frenzy Card
                         Button(action: {
-                            showTapFrenzySheet = true
+                            selectedGame = .tapFrenzy
+                            showGamePreview = true
                         }) {
                             AnimatedGameCard(
                                 title: "Tap Frenzy",
                                 icon: "hand.tap.fill",
-                                color: .orange,
+                                color: AppTheme.tapFrenzy,
                                 description: "Tap as fast as you can!"
                             )
                         }
-                        .padding(.horizontal)
 
                         // Light It Up Card
                         Button(action: {
-                            showLightItUpSheet = true
+                            selectedGame = .lightItUp
+                            showGamePreview = true
                         }) {
                             AnimatedGameCard(
                                 title: "Light It Up",
                                 icon: "lightbulb.fill",
-                                color: .yellow,
+                                color: AppTheme.lightItUp,
                                 description: "Find the glowing card!"
                             )
                         }
-                        .padding(.horizontal)
 
                         // Quiz Rush Card
                         Button(action: {
-                            showQuizRushSheet = true
+                            selectedGame = .quizRush
+                            showGamePreview = true
                         }) {
                             AnimatedGameCard(
                                 title: "Quiz Rush",
                                 icon: "questionmark.circle.fill",
-                                color: .green,
+                                color: AppTheme.quizRush,
                                 description: "Test your knowledge!"
                             )
                         }
-                        .padding(.horizontal)
                     }
-                    .padding(.top, 10)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
 
                     Spacer(minLength: 30)
                 }
             }
 
             // Countdown Overlay
-            CountdownOverlay(isShowing: $showCountdown) {
-                activeGame = selectedGame
+            if let game = selectedGame {
+                QuickGamePreview(
+                    gameName: game.rawValue,
+                    gameIcon: game.icon,
+                    gameColor: gameColor(for: game),
+                    isShowing: $showGamePreview
+                ) {
+                    activeGame = game
+                }
             }
-
         }
         .navigationBarHidden(true)
         .navigationDestination(item: $activeGame) { game in
@@ -116,38 +123,13 @@ struct HomeTab: View {
                 QuizRushView()
             }
         }
-        .sheet(isPresented: $showTapFrenzySheet) {
-            GameStartSheet(
-                gameName: "Tap Frenzy",
-                gameIcon: "hand.tap.fill",
-                gameColor: .orange,
-                bestScore: UserDefaults.standard.integer(forKey: "tapFrenzyHighScore")
-            ) {
-                selectedGame = .tapFrenzy
-                showCountdown = true
-            }
-        }
-        .sheet(isPresented: $showLightItUpSheet) {
-            GameStartSheet(
-                gameName: "Light It Up",
-                gameIcon: "lightbulb.fill",
-                gameColor: .yellow,
-                bestScore: UserDefaults.standard.integer(forKey: "lightItUpHighScore")
-            ) {
-                selectedGame = .lightItUp
-                showCountdown = true
-            }
-        }
-        .sheet(isPresented: $showQuizRushSheet) {
-            GameStartSheet(
-                gameName: "Quiz Rush",
-                gameIcon: "questionmark.circle.fill",
-                gameColor: .green,
-                bestScore: UserDefaults.standard.integer(forKey: "quizRushHighScore")
-            ) {
-                selectedGame = .quizRush
-                showCountdown = true
-            }
+    }
+
+    private func gameColor(for mode: GameMode) -> Color {
+        switch mode {
+        case .tapFrenzy: return AppTheme.tapFrenzy
+        case .lightItUp: return AppTheme.lightItUp
+        case .quizRush: return AppTheme.quizRush
         }
     }
 }
@@ -162,17 +144,17 @@ struct GameButton: View {
         HStack {
             Image(systemName: icon)
                 .font(.title)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textOnColor)
 
             Text(title)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textOnColor)
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .foregroundColor(.white)
+                .foregroundColor(AppTheme.textOnColor)
         }
         .padding()
         .background(color)
